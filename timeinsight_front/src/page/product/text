@@ -1,0 +1,71 @@
+
+
+  const [currentBids, setCurrentBids] = useState([]);
+  const [winningBids, setWinningBids] = useState([]);
+
+
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    // WebSocket 연결
+    const ws = new WebSocket("ws://localhost:8080");
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setCurrentBids(data.currentBids);
+      setWinningBids(data.winningBids);
+    };
+
+    // 컴포넌트 언마운트 시 WebSocket 연결 종료
+    return () => ws.close();
+  }, []);
+
+  // 더미 데이터로 초기화
+  useEffect(() => {
+    const dummyCurrentBids = [
+      { amount: 100000, user: "User1" },
+      { amount: 150000, user: "User2" },
+      { amount: 200000, user: "User3" },
+    ];
+
+    const dummyWinningBids = [
+      { amount: 200000, user: "User3" },
+      { amount: 180000, user: "User4" },
+      { amount: 170000, user: "User5" },
+    ];
+
+    setCurrentBids(dummyCurrentBids);
+    setWinningBids(dummyWinningBids);
+  }, []);
+
+  return (
+    <div className="realtimeboard__container">
+      <h1 className="realtimeboard__title">실시간 경매 현황</h1>
+      <div className="realtimeboard__board">
+        {[...winningBids, ...currentBids.slice(-5)].map((bid, index) => (
+          <div
+            key={index}
+            className={`realtimeboard__row ${
+              winningBids.includes(bid) ? "winning" : "bidding"
+            }`}
+          >
+            <span className="realtimeboard__user">{bid.user}</span>
+            <span className="realtimeboard__amount">{bid.amount} 원</span>
+            <span className="realtimeboard__status">
+              {winningBids.includes(bid) ? "낙찰" : "입찰"}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default RealTimeBoard;

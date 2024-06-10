@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.member.model.dao.MemberDao"> 
+	<select id="selectOneMember" resultType="member">
+		select * from member_tbl where member_id = #{memberId}
+	</select>
+
+	<insert id="insertMember">
+		insert into member_tbl values(member_seq.nextval,
+		#{memberId}, #{memberPw},#{memberName},#{memberPhone},#{memberEmail},
+		#{zipcode}, #{address}, #{addressDetail},
+		1, sysdate)
+	</insert>
+
+	<update id="updateInfo">
+		update member_tbl set member_phone=#{memberPhone},
+		member_email=#{memberEmail} where member_id=#{memberId}
+	</update>
+
+	<delete id="deleteMember">
+		delete member_tbl where member_id=#{memberId}
+	</delete>
+
+	<update id="changePwMember">
+		update member_tbl set member_pw=#{memberPw} where member_id=#{memberId}
+	</update>
+
+	<select id="selectMembmerNo" resultType="int">
+		select member_no from
+		member_tbl where member_id = #{memberId}
+	</select>
+
+	<select id="totalCount" resultType="int">
+		<choose>
+			<when test="currentStatus == 1 or currentStatus == 2">
+				SELECT COUNT(*)
+				FROM bid_tbl
+				WHERE member_no = #{memberNo}
+				AND
+				bid_state = #{currentStatus}
+				AND <![CDATA[to_char(bid_date,'YYYY-MM-DD') >= #{filterStartDate}]]>
+				AND <![CDATA[to_char(bid_date,'YYYY-MM-DD') <= #{filterEndDate}]]>
+
+			</when>
+			<otherwise>
+				SELECT COUNT(*)
+				FROM bid_tbl
+				WHERE member_no = #{memberNo}
+				AND
+				bid_state NOT IN (1, 2)
+				AND  <![CDATA[ to_char(bid_date,'YYYY-MM-DD') >= #{filterStartDate} ]]>
+				AND <![CDATA[ to_char(bid_date,'YYYY-MM-DD') <= #{filterEndDate}]]>
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="selectMyBidList" resultType="bid">
+		<choose>
+			<when test="currentStatus == 1 or currentStatus == 2">
+				SELECT * FROM
+				(SELECT ROWNUM AS RNUM, Y.* FROM (SELECT
+				B.BID_NO,
+				M.MEMBER_NAME,
+				M.MEMBER_EMAIL,
+				M.MEMBER_PHONE,
+				M.ZIPCODE,
+				M.ADDRESS,
+				M.ADDRESS_DETAIL,
+				B.PRODUCT_NO,
+				E.EXPERT_NAME,
+				E.EXPERT_THUMBNAIL,
+				P.PRODUCT_NAME,
+				to_char(P.END_DATE,
+				'yyyy-mm-dd') as end_date,
+				B.MEMBER_NO,
+				B.BID_AMOUNT,
+				to_char(B.BID_DATE, 'yyyy-mm-dd') as
+				bid_Date,
+				B.BID_STATE,
+				TO_CHAR(B.PAYMENT_DUE_DATE, 'YYYY-MM-DD') AS
+				PAYMENT_DUE_DATE
+				FROM
+				BID_TBL B
+				JOIN PRODUCT_TBL P ON B.PRODUCT_NO =
+				P.PRODUCT_NO
+				JOIN EXPERT_TBL E ON P.EXPERT_NO = E.EXPERT_NO
+				JOIN
+				MEMBER_TBL M ON
+				B.MEMBER_NO = M.MEMBER_NO
+				WHERE B.MEMBER_NO =
+				#{memberNo} and
+				B.BID_STATE = #{currentStatus}
+				AND <![CDATA[ to_char(B.bid_date, 'YYYY-MM-DD') >= #{filterStartDate} ]]>
+				AND <![CDATA[ to_char(B.bid_date, 'YYYY-MM-DD') <= #{filterEndDate} ]]>
+				ORDER BY B.BID_NO DESC) Y)
+				WHERE RNUM BETWEEN #{pageInfo.start} AND
+				#{pageInfo.end}
+			</when>
+			<otherwise>
+				SELECT * FROM
+				(SELECT ROWNUM AS RNUM, Y.* FROM (SELECT
+				B.BID_NO,
+				M.MEMBER_NAME,
+				M.MEMBER_EMAIL,
+				M.MEMBER_PHONE,
+				M.ZIPCODE,
+				M.ADDRESS,
+				M.ADDRESS_DETAIL,
+				B.PRODUCT_NO,
+				E.EXPERT_NAME,
+				E.EXPERT_THUMBNAIL,
+				P.PRODUCT_NAME,
+				to_char(P.END_DATE, 'yyyy-mm-dd') as end_date,
+				B.MEMBER_NO,
+				B.BID_AMOUNT,
+				to_char(B.BID_DATE, 'yyyy-mm-dd') as
+				bid_Date,
+				B.BID_STATE,
+				TO_CHAR(PAYMENT_DUE_DATE, 'YYYY-MM-DD') AS
+				PAYMENT_DUE_DATE
+				FROM BID_TBL B
+				JOIN PRODUCT_TBL P ON B.PRODUCT_NO =
+				P.PRODUCT_NO
+				JOIN EXPERT_TBL E ON P.EXPERT_NO = E.EXPERT_NO
+				JOIN
+				MEMBER_TBL M ON B.MEMBER_NO = M.MEMBER_NO
+				WHERE
+				B.MEMBER_NO =
+				#{memberNo} and B.BID_STATE NOT IN (1, 2)
+				AND <![CDATA[ to_char(B.bid_date, 'YYYY-MM-DD') >= #{filterStartDate} ]]>
+				AND <![CDATA[ to_char(B.bid_date, 'YYYY-MM-DD') <= #{filterEndDate} ]]>
+				ORDER BY B.BID_NO DESC) Y)
+				WHERE RNUM BETWEEN #{pageInfo.start} AND
+				#{pageInfo.end}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectMember" resultType="member">
+	SELECT ROWNUM, M.*
+	FROM ( select member_no, member_name, member_id, member_email,
+	member_grade, to_char(enroll_date, 'yyyy-mm-dd') as enroll_date
+	from member_tbl) M 	</select>
+	
+	<select id="totalMemberCount" resultType="int">
+		select count(*) from member_tbl
+	</select>
+	
+	<update id="updateMemberGrade">
+		update member_tbl set member_grade = #{memberGrade} where member_no = #{memberNo}
+	</update>
+	
+	<select id="selectMemberGrade" resultType="int">
+		select member_grade from member_tbl where member_no = #{memberNo}
+	</select>
+</mapper>

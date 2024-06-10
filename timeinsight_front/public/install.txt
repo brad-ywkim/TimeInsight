@@ -1,0 +1,24 @@
+2024-05-05
+npm install react-router-dom
+npm install axios
+npm install sweetalert2
+
+
+2024-05-09
+npm install @mui/material @emotion/react @emotion/styled
+
+
+2024-05-10
+npm install @mui/x-date-pickers --MUI 'UI 기반 날짜 선택 기능'을 제공
+npm install dayjs --날짜/시간 연산 기능 등을  제공
+npm install react-quill --텍스트 에디터
+npm install quill-image-resize-module-react --텍스트 에디터 내 이미지 사이즈 조정
+npm install react-quill@latest --텍스트 에디터 최신버전
+
+2024-05-11
+npm install date-fns 날짜 관리
+
+2024-05-13
+npm i @portone/browser-sdk 포트원 결제 연동 라이브러리
+npm install react-daum-postcode 다음 주소 API
+npm install react-modal

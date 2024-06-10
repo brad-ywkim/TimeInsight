@@ -1,0 +1,28 @@
+/*
+메인색상
+#5356FF rgb(83, 86, 255)
+#378CE7 rgb(55, 140, 231)
+#67C6E3 rgb(103, 198, 227)
+#DFF5FF rgb(223, 245, 255)
+*/
+
+.paging-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.paging-wrap > .page-item {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  color: #000000;
+}
+.page-item.active-page {
+  background-color: #002fb0;
+  color: #fff;
+}

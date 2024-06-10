@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.product.model.dao.ProductDao">
+
+
+
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PRODUCT_TBL P
+		JOIN CATEGORY_TBL C ON P.CATEGORY_NO
+		= C.CATEGORY_NO
+		<where>
+			PRODUCT_STATE = 1
+			<if test="selectedCategory != 'all'">
+				AND C.CATEGORY_NAME = #{selectedCategory}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectProductList" resultType="product">
+		SELECT * FROM
+		(SELECT ROWNUM AS RNUM, P.* FROM (SELECT
+		PRODUCT_NO,
+		EXPERT_NAME,
+		C.CATEGORY_NAME,
+		E.EXPERT_THUMBNAIL,
+		PRODUCT_NAME,
+		TO_CHAR(PRODUCT_DATE,'YYYY-MM-DD') AS PRODUCT_DATE,
+		PRODUCT_TIME,
+		PRODUCT_PLACE,
+		TOTAL_PARTICIPANTS,
+		READ_COUNT,
+		TO_CHAR(START_DATE,
+		'YYYY-MM-DD') AS START_DATE,
+		TO_CHAR(END_DATE,'YYYY-MM-DD') AS
+		END_DATE,
+		STARTING_PRICE,
+		PRODUCT_STATE
+		FROM
+		PRODUCT_TBL P
+		JOIN EXPERT_TBL
+		E ON P.EXPERT_NO = E.EXPERT_NO
+		JOIN
+		CATEGORY_TBL C ON P.CATEGORY_NO =
+		C.CATEGORY_NO
+		<where>
+			P.PRODUCT_STATE = 1
+			<if test="selectedCategory != 'all'">
+				AND C.CATEGORY_NAME = #{selectedCategory}
+			</if>
+		</where>
+	ORDER BY
+	<choose>
+		<when test="filter == 0">
+			P.PRODUCT_NO DESC
+		</when>
+		<when test="filter == 1">
+			P.STARTING_PRICE DESC
+		</when>
+		<otherwise>
+			P.PRODUCT_NO DESC
+		</otherwise>
+	</choose>
+	) P
+	)
+	WHERE RNUM BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+	</select>
+
+	<!-- 특정 필드의 합계를 가져오기 -->
+	<select id="selectTotalTime" parameterType="string" resultType="int">
+		SELECT COALESCE(SUM(product_time),0)
+		FROM product_tbl P
+		JOIN
+		CATEGORY_TBL C ON P.CATEGORY_NO = C.CATEGORY_NO
+		<where>
+			<if test="selectedCategory != 'all'">
+				C.category_NAME = #{selectedCategory}
+			</if>
+			and product_state = 1
+		</where>
+	</select>
+
+
+
+
+	<select id="totalExpertCount" resultType="int">
+		select count(*)
+		from
+		expert_tbl
+	</select>
+
+	<select id="selectExpertList" resultType="expert">
+		SELECT * FROM
+		(SELECT
+		ROWNUM AS RNUM, E.* FROM
+		(SELECT E.EXPERT_NO, E.EXPERT_NAME,
+		E.EXPERT_JOB, to_char(E.EXPERT_BIRTHDAY,
+		'yyyy-mm-dd') as
+		expert_birthday ,
+		E.EXPERT_PHONE, E.EXPERT_EMAIL, E.EXPERT_THUMBNAIL
+		FROM EXPERT_TBL E
+		ORDER BY E.EXPERT_NO DESC) E)
+		WHERE RNUM BETWEEN
+		#{start} AND #{end}
+
+	</select>
+
+
+	<insert id="insertExpert">
+		INSERT INTO expert_tbl
+		VALUES (
+		expert_seq.NEXTVAL,
+		#{expertWriter},
+		#{expertName},
+		#{expertBirthday},
+		#{expertJob},
+		#{expertPhone},
+		#{expertEmail},
+		#{expertThumbnail},
+		#{expertIntro}
+		)
+		<selectKey resultType="int" keyProperty="expertNo"	order="AFTER">
+			select max(expert_no) from expert_tbl
+		</selectKey>
+
+	</insert>
+
+	<insert id="insertExpertFile">
+		insert into expert_file_tbl values
+		(expert_file_seq.nextval, #{expertNo}, #{filename}, #{filepath})
+	</insert>
+
+	<select id="selectExpertFile" resultType="expertFile">
+		select * from expert_file_tbl where expert_file_no in
+		<foreach collection="array" open="(" close=")" separator=","
+			item="expertFileNo">
+			#{expertFileNo}
+		</foreach>
+	</select>
+
+	<delete id="deleteExpertFile">
+		delete from expert_file_tbl where expert_file_no in
+		<foreach collection="array" open="(" close=")" separator=","
+			item="expertFileNo">
+			#{expertFileNo}
+		</foreach>
+	</delete>
+
+	<update id="updateExpert">
+		update expert_tbl set
+		expert_job = #{expertJob},
+		expert_phone = #{expertPhone},
+		expert_email = #{expertEmail},
+		expert_intro = #{expertIntro},
+		expert_thumbnail = #{expertThumbnail}
+		where expert_no = #{expertNo}
+	</update>
+
+
+	<select id="selectOneExpert" resultType="expert">
+		select
+		expert_no,
+		expert_writer, expert_name, to_char(expert_birthday,
+		'yyyy-mm-dd') as
+		expert_birthday, expert_job, expert_phone,
+		expert_email,
+		expert_thumbnail, expert_intro from expert_tbl where expert_no =
+		#{expertNo}
+	</select>
+
+	<select id="selectOneExpertFileList" resultType="expertFile">
+		select * from
+		expert_file_tbl where expert_no = #{expert_no}
+	</select>
+
+	<select id="selectOneExpertFile" resultType="expertFile">
+		select * from
+		expert_file_tbl where expert_file_no = #{expertFileNo}
+	</select>
+
+
+	<insert id="insertProduct">
+		insert into product_tbl values (product_seq.nextval,
+		#{productWriter}, #{expertNo}, #{categoryNo}, #{productName},
+		#{productDate}, #{productTime}, #{productPlace}, #{totalParticipants},
+		0, #{startDate}, #{endDate}, #{startingPrice}, 1)
+	</insert>
+
+	<select id="selectProduct" resultType="product">
+		select P.PRODUCT_NO,
+		P.PRODUCT_WRITER, P.EXPERT_NO, P.CATEGORY_NO,
+		P.PRODUCT_NAME,
+		TO_CHAR(P.PRODUCT_DATE,'YYYY-MM-DD') AS PRODUCT_DATE,
+		P.PRODUCT_TIME,
+		P.PRODUCT_PLACE, P.TOTAL_PARTICIPANTS,P.READ_COUNT,
+		TO_CHAR(P.START_DATE, 'YYYY-MM-DD') AS START_DATE, TO_CHAR(P.END_DATE,
+		'YYYY-MM-DD') AS END_DATE, P.STARTING_PRICE, P.PRODUCT_STATE ,
+		C.CATEGORY_NAME, E.EXPERT_JOB, E.EXPERT_NAME, E.EXPERT_THUMBNAIL,
+		E.EXPERT_INTRO
+		from product_tbl P
+		JOIN CATEGORY_TBL C ON P.CATEGORY_NO =
+		C.CATEGORY_NO
+		JOIN EXPERT_TBL E ON P.EXPERT_NO = E.EXPERT_NO
+		where
+		product_no = #{product_no}
+	</select>
+
+
+	<select id="selectEndList" resultType="Integer">
+		select product_no from product_tbl where end_date <![CDATA[<]]>
+		trunc(sysdate) AND PRODUCT_STATE = 1
+	</select>
+
+
+	<update id="updateProductStateFour">
+		update product_tbl set product_state = 4 where
+		product_no = #{integer}
+	</update>
+
+	<update id="updateProductStateTwo">
+		update product_tbl set product_state = 2 where
+		product_no = #{integer}
+	</update>
+
+	<update id="updateProductStateFive">
+		update product_tbl set product_state = 5 where
+		product_no = #{productNo}
+	</update>
+
+	<select id="selectProductNo" resultType="integer">
+		select product_no from
+		bid_tbl where bid_no = #{bidNo}
+	</select>
+
+	<update id="updateProductStateThree">
+		update product_tbl set product_state = 3 where
+		product_no = #{productNo}
+	</update>
+
+	<select id="selectDbTime" resultType="string">
+		SELECT CURRENT_TIMESTAMP
+		FROM dual
+	</select>
+
+	<select id="totalProductCount" resultType="int">
+		select count(*) from
+		product_tbl
+	</select>
+
+	<select id="selectAllProduct" resultType="product">
+		SELECT
+		P.PRODUCT_NO,
+		P.PRODUCT_NAME,
+		TO_CHAR(P.PRODUCT_DATE, 'YYYY-MM-DD') AS PRODUCT_DATE ,
+		P.PRODUCT_STATE,
+		E.EXPERT_NO,
+		E.EXPERT_THUMBNAIL,
+		E.EXPERT_NAME,
+		NVL(B.BID_COUNT, 0) AS BID_COUNT
+		FROM
+		PRODUCT_TBL P
+		JOIN
+		EXPERT_TBL E ON P.EXPERT_NO = E.EXPERT_NO
+		LEFT JOIN
+		(SELECT PRODUCT_NO, COUNT(*) AS BID_COUNT
+		FROM BID_TBL
+		GROUP BY PRODUCT_NO) B ON P.PRODUCT_NO = B.PRODUCT_NO
+		ORDER BY
+		P.PRODUCT_NO
+	</select>
+	
+	<update id="updateProduct">
+		update product_tbl set product_name = #{productName}, product_place = #{productPlace}, product_time = #{productTime} where product_no = #{productNo}
+	</update>
+	
+	<update id="cancleProduct">
+		update product_tbl set product_state = 6 where product_no = #{productNo}
+	</update>
+	
+</mapper>

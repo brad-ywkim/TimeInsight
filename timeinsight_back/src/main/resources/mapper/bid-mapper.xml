@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.bid.model.dao.BidDao">
+
+
+	<insert id="insertBid">
+		insert into bid_tbl values (bid_seq.nextval,
+		#{productNo}, #{memberNo}, #{bidAmount}, sysdate, '1', #{endDate})
+	</insert>
+
+	<select id="selectBidState" resultType="Integer">
+		select bid_state from
+		bid_tbl where member_no = #{memberNo} and product_no = #{productNo}
+	</select>
+
+	<select id="selectBid" resultType="bid">
+		select bid_no, bid_amount from
+		bid_tbl where member_no = #{memberNo} and product_no = #{productNo}
+	</select>
+
+	<update id="cancleBid">
+		update bid_tbl set bid_state = 6, bid_amount = 0
+		where bid_no = #{bidNo}
+	</update>
+
+	<update id="updateReBid">
+		update bid_tbl set bid_state = 1, bid_amount = #{i}
+		where bid_no = #{bidNo}
+	</update>
+
+	<update id="updateBidAmount">
+		update bid_tbl set bid_amount = #{bidAmount} where
+		bid_no = #{bidNo}
+	</update>
+
+
+
+	<select id="selectBidCount" resultType="int">
+		select count(*) from bid_tbl where product_no = #{integer}
+	</select>
+
+	<select id="selectMaxBidNo" resultType="int">		
+		SELECT BID_NO
+		FROM(
+		SELECT BID_NO
+		FROM BID_TBL
+		WHERE PRODUCT_NO = #{integer}
+		AND BID_AMOUNT = (SELECT MAX(BID_AMOUNT) FROM BID_TBL WHERE PRODUCT_NO =
+		#{integer})
+		ORDER BY DBMS_RANDOM.VALUE
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<update id="updateBidStateTwo">
+		update bid_tbl set bid_state = 2 where bid_no =
+		#{maxBidNo}
+	</update>
+
+	<update id="updateBidStateThree">
+		update bid_tbl set bid_state = 3 where product_no =
+		#{productNo} and bid_no != #{maxBidNo}
+	</update>
+
+	<insert id="insertPayment">
+		insert into payment_tbl values (payment_seq.nextval,
+		#{bidNo}, #{memberNo}, #{tradeNo}, #{productName}, #{paymentAmount},
+		sysdate)
+	</insert>
+
+
+	<update id="updateBidSuccess">
+		update bid_tbl set bid_state = 4 where bid_no =
+		#{bidNo}
+	</update>
+
+
+	<select id="selectPaymentInfo" resultType="payment">
+		select * from payment_tbl where bid_no = #{bidNo}
+	</select>
+
+	<select id="selectNonPayList" resultType="Integer">
+		SELECT bid_no FROM BID_TBL WHERE BID_STATE = 2 AND <![CDATA[TRUNC(PAYMENT_DUE_DATE) < TRUNC(SYSDATE)]]>
+	</select>
+
+	<update id="updateBidStateFive">
+		update bid_tbl set bid_state = 5 where bid_no = #{integer}
+	</update>
+
+	<select id="selectOneBidCount" resultType="int">
+		select count(*) from bid_tbl where product_no = #{productNo}
+	</select>
+
+	<select id="selectMemberBidHistory" resultType="bid">
+	select b.bid_no, to_char(b.bid_date,'yyyy-mm-dd') as bid_date, p.product_name, e.expert_name, b.bid_state, b.bid_no,
+	b.bid_amount from bid_tbl b
+	join product_tbl p on b.product_no = p.product_no
+	join expert_Tbl e on p.expert_no = e.expert_no
+	where member_no = #{memberNo}
+	order by b.bid_no asc
+	</select> 
+
+
+	<select id="selectRealTimeBid" resultType="product">
+	SELECT P.PRODUCT_NAME, E.EXPERT_NAME, E.EXPERT_THUMBNAIL,
+	C.CATEGORY_NAME
+	FROM PRODUCT_TBL P
+	JOIN EXPERT_TBL E ON P.EXPERT_NO = E.EXPERT_NO
+	JOIN CATEGORY_TBL C ON P.CATEGORY_NO = C.CATEGORY_NO
+	WHERE P.PRODUCT_NO = #{PRODUCT_NO}
+	</select>
+</mapper>

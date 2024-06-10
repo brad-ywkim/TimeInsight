@@ -1,0 +1,155 @@
+.expert-frm-title {
+  font-size: 24px;
+  font-family: ns-b;
+}
+
+.expert-frm-subtitle {
+  margin-bottom: 20px;
+}
+
+.expert-frm-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 전문가 썸네일 */
+.expert-thumbnail {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.expert-thumbnail img {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+}
+
+/* 썸네일 버튼 */
+#thumbnail {
+  display: none;
+}
+
+.expert-thumbnail label {
+  color: #fff;
+  font-family: ns-l;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--main_01);
+}
+
+.expert-thumbnail label:hover {
+  cursor: pointer;
+}
+
+/* 전문가 정보입력란 */
+.expert-info {
+  width: 600px;
+}
+
+.expert-info-tbl {
+  width: 100%;
+  border-spacing: 0; /*테이블 사이 간격*/
+}
+
+.expert-infro-tbl-tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expert-info-tbl tr:not(:first-child) td {
+  padding-top: 8px;
+}
+
+.expert-info-tbl tr td > input {
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: ns-r;
+}
+
+.expert-infro-tbl-tr td {
+  width: 45%;
+}
+
+.expert-infro-tbl-tr td:nth-child(2) > div input {
+  padding: 11px;
+}
+
+/* 첨부파일 */
+.file-zone {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  overflow-y: scroll; /*첨부파일 여러개일시 스크롤*/
+}
+
+.file-zone p {
+  margin: 3px 0;
+  display: flex;
+}
+
+.file-zone span:last-child:hover {
+  cursor: pointer;
+}
+
+#expertFile {
+  display: none;
+}
+
+.expertFile-label {
+  padding: 6px;
+}
+
+.expertFile-label:hover {
+  cursor: pointer;
+  font-weight: 600;
+  color: #000;
+  background-color: blanchedalmond;
+  border-radius: 3px;
+}
+
+.expert-frm-bottom {
+  margin: 20px 0;
+}
+
+/* 텍스트에디터 */
+.expert-frm-bottom .ql-editor {
+  height: 500px;
+}
+
+.ql-editor img {
+  width: 400px;
+}
+
+/* 파일 다운로드 */
+.expert-file {
+  display: flex;
+}
+
+.expert-intro {
+  border: 1px solid rgb(206, 206, 206);
+  padding: 15px;
+  font-size: 16px;
+  font-family: ns-r;
+}
+
+.expert-frm-btn-box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.expert-frm-btn-box button {
+  width: 10%;
+  margin-left: 20px;
+}
