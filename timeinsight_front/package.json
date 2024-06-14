@@ -5,13 +5,13 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.17",
-    "@mui/x-date-pickers": "^7.3.2",
+    "@mui/material": "^5.15.20",
+    "@mui/x-date-pickers": "^7.7.0",
     "@portone/browser-sdk": "^0.0.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "quill-image-resize-module-react": "^3.0.0",
@@ -20,9 +20,9 @@
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
     "react-quill": "^2.0.0",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
-    "sweetalert2": "^11.10.8",
+    "sweetalert2": "^11.11.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

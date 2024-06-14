@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.timeinsight.member.model.dao.MemberDao">
+	<select id="selectOneMember" resultType="member">
+		select * from member_tbl where member_id = #{memberId}
+	</select>
+
+	<insert id="insertMember">
+		insert into member_tbl values(member_seq.nextval,
+		#{memberId}, #{memberPw},#{memberName},#{memberPhone},#{memberEmail},
+		#{zipcode}, #{address}, #{addressDetail},
+		1, sysdate)
+	</insert>
+
+	<update id="updateInfo">
+		update member_tbl set member_phone=#{memberPhone},
+		member_email=#{memberEmail} where member_id=#{memberId}
+	</update>
+
+	<delete id="deleteMember">
+		delete member_tbl where member_id=#{memberId}
+	</delete>
+
+	<update id="changePwMember">
+		update member_tbl set member_pw=#{memberPw} where member_id=#{memberId}
+	</update>
+
+	<select id="selectMembmerNo" resultType="int">
+		select member_no from
+		member_tbl where member_id = #{memberId}
+	</select>
+
+
+
+	
+	<select id="selectMember" resultType="member">
+	SELECT ROWNUM, M.*
+	FROM ( select member_no, member_name, member_id, member_email,
+	member_grade, to_char(enroll_date, 'yyyy-mm-dd') as enroll_date
+	from member_tbl) M 	</select>
+	
+	<select id="totalMemberCount" resultType="int">
+		select count(*) from member_tbl
+	</select>
+	
+	<update id="updateMemberGrade">
+		update member_tbl set member_grade = #{memberGrade} where member_no = #{memberNo}
+	</update>
+	
+	<select id="selectMemberGrade" resultType="int">
+		select member_grade from member_tbl where member_no = #{memberNo}
+	</select>
+</mapper>

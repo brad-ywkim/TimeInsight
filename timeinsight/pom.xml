@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>3.3.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>timeinsight_back</artifactId>
+	<groupId>kr.co</groupId>
+	<artifactId>timeinsight</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>timeinsight_back</name>
-	<description>Demo project for Spring Boot</description>
+	<name>timeinsight</name>
+	<description>timeinstight bid</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 
-	<!-- default war를 jar로 변경 -->
-	<!-- jar: java achrive file (순수 자바프로그램) war: web archive file (web개발은 war이 
-		맞으나, 스프링부트가 jar로 배포할수있게 내장되어 있음) -->
-	<packaging>jar</packaging>
 
 
 	<dependencies>
+		<!--spring-boot-starter-mail: SMTP 서버를 통한 메일 발송 라이브러리-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>3.2.5</version>
 		</dependency>
 
-		<!-- 웹소켓 -->
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
+
+		<!-- Websocket: Websocket 기반의 실시간 통신 기능을 손쉽게 설정하고 구현할 수 있도록 도와주는 라이브러리	-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -65,31 +61,25 @@
 		</dependency>
 
 
-
-
-
 		<!-- Swagger -->
-		<!-- <https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter> -->
+		<!-- <https://mvnrepository.com/artifact/io.springdoc/springdoc-openapi-starter-webmvc-ui> -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<!-- <https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui> -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>3.0.0</version>
-		</dependency>
 		<!-- END -->
 
+		<!-- Other dependencies -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>3.0.3</version>
+		</dependency>
 
-	
+		<!-- Other dependencies -->
+
+
 
 		<!-- PW SECURITY1 : AOP -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
@@ -98,7 +88,9 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-		<!-- PW SECURITY2 : SECURITY -->
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -128,11 +120,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

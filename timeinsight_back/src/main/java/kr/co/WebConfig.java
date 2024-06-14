@@ -18,8 +18,6 @@ public class WebConfig implements WebMvcConfigurer{
 	@Autowired
 	private LoginInterceptor LoginInterceptor;
 	
-
-	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(LoginInterceptor)
@@ -30,13 +28,11 @@ public class WebConfig implements WebMvcConfigurer{
 						"/product/detail/*", "/member/emailAuth"); //로그인안해도 접근가능
 	}
 	
-	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/product/editor/**")
