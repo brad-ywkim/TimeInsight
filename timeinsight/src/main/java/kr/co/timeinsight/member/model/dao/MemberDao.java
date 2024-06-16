@@ -10,7 +10,8 @@ import kr.co.timeinsight.member.model.dto.Member;
 @Mapper
 public interface MemberDao {
 
-    Member selectOneMember(String memberId);  //로그인
+    Member selectOneMember(String memberId);
+
     int insertMember(Member member);
     int updateInfo(Member member);
     int deleteMember(String memberId);

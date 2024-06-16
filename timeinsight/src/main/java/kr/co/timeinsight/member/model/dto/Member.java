@@ -7,8 +7,8 @@ import org.apache.ibatis.type.Alias;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor  // 인스턴스 초기화(기본생성자) - 클래스 이름과 동일하며, 반환 타입 없음
+@AllArgsConstructor // 인스턴스 초기화
 @Data
 @Alias("member")
 @Schema(description = "회원객체")

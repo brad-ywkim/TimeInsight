@@ -18,4 +18,8 @@ public class ResponseDTO {
     private String message;
     @Schema(description = "응답 데이터", type="object")
     private Object data;
+
+
 }
+
+

@@ -10,9 +10,10 @@ public class MemberService {
 
     @Autowired
     private MemberDao memberDao;
-
     public Member selectOneMember(String memberId) {
         return memberDao.selectOneMember(memberId);
     }
+
+
 
 }
