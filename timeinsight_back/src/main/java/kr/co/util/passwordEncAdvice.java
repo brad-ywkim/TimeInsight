@@ -27,7 +27,7 @@ public class passwordEncAdvice {
 	public void pwEncPointcut() {}
 	
 	@Before(value="pwEncPointcut()")
-	public void pwEncAdvice(JoinPoint jp) {
+	public void pwEncAdvice(JoinPoint jp) { //advice
 		Object[] args = jp.getArgs(); //Advice가 적용된 메서드의 매개변수들을 가져온다 (배열형태로 매개변수가 전달됨)
 		Member member = (Member)args[0];
 		String encPw  = bCryptPasswordEncoder.encode(member.getMemberPw());

@@ -79,7 +79,7 @@ public class EmailSender {
             helper.setText("<h1>Timeinsight 아이디 찾기 안내</h1>" + "<h3>회원님의 아이디는 [<span style='color:#4389BA;'>" + memberId
                     + "</span>]입니다</h3>", true);
             sender.send(message);
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             sb = null;
             e.printStackTrace();
 

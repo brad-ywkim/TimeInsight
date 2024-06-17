@@ -1,4 +1,4 @@
-package kr.co.timeinsight;
+package kr.co;
 
 import org.springframework.http.HttpStatus;
 

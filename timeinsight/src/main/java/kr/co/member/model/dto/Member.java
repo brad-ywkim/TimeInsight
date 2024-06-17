@@ -1,4 +1,4 @@
-package kr.co.timeinsight.member.model.dto;
+package kr.co.member.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
