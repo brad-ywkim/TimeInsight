@@ -6,11 +6,8 @@
 ## 개발 기간
 2024.05.01 ~ 2024.05.29(3주)
 
-## 팀원 소개
-![팀소개이미지]()
-
 ## ERD
-![ERD이미지]()
+![ERD이미지](https://github.com/sprintkim/TimeInsight/blob/6901ef1bf51769592d54e5e7ac8a6711724b472e/Timeinsight_erd.png)
 
 ## 개발 환경 및 기술 스택
 ### 백엔드
