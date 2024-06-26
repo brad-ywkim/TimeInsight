@@ -4,7 +4,7 @@
 - 개인 프로젝트로 기획, DB 설계, 화면 및 백엔드 구현을 담당했습니다.
 
 ## 개발 기간
-2024.05.01 ~ 2024.05.29(3주)
+2024.05.01 ~ 2024.05.29
 
 ## ERD
 ![ERD이미지](https://github.com/sprintkim/TimeInsight/blob/6901ef1bf51769592d54e5e7ac8a6711724b472e/Timeinsight_erd.png)
