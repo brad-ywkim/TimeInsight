@@ -13,6 +13,8 @@ public class LoginInterceptor implements HandlerInterceptor{
 
 	@Autowired
 	private JwtUtil jwtUtil; //인증만료시간 여부를 확인하기 위함(true면 인증시간 만료)
+
+	
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

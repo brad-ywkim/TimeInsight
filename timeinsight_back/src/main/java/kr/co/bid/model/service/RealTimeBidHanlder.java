@@ -20,7 +20,6 @@ public class RealTimeBidHanlder extends TextWebSocketHandler{
     private final List<WebSocketSession> sessions = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
 	
 	//클라이언트가 웹소켓에 접속하면 호출되는 메소드 : 최초에 접속하면 인식하는 메소드 (Ex: 채팅방 접속시 호출)
 	@Override

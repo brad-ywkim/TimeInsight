@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./realTimeBoard.css";
+
 const RealTimeBoard = () => {
   const backServer = process.env.REACT_APP_BACK_SERVER;
   const socketServer = backServer.replace("http://", "ws://");
@@ -44,7 +45,7 @@ const RealTimeBoard = () => {
     setWs(socket);
 
     return () => {
-      console.log("채팅 페이지에서 나감");
+      console.log("페이지에서 나감");
       socket.close();
     };
   }, [socketServer]);

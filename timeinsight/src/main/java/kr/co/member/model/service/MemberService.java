@@ -32,7 +32,9 @@ public class MemberService {
     }
 
     public String login(Member member) {
+        System.out.println("비밀번호:" + member);
         Member m = memberDao.selectOneMember(member.getMemberId()); //회원정보 가져와 저장
+
         if (m != null && bCryptPasswordEncoder.matches(member.getMemberPw(), m.getMemberPw())) {
             if(m.getMemberGrade() == 3) {
                 String accessToken = "blackMember";

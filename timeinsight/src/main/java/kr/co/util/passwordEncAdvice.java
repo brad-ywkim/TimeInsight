@@ -21,14 +21,13 @@ public class passwordEncAdvice {
     //예를 들어, 사용자가 비밀번호를 변경하거나 새 계정을 만들 때,
     // 비밀번호를 자동으로 암호화하는 로직을 AOP를 사용하여 구현할 수 있습니다.
 
-
     //AOP란?
     //관점지향 프로그래밍
     //execution은 Spring AOP에서 포인트컷(Pointcut)을 정의하기 위해 사용되는 표현식입니다.
     //포인트컷은 특정 메서드 실행 지점을 가리키며, AOP 어드바이스(Advice)가 적용될 위치를 결정합니다.
     //execution 표현식은 메서드의 시그니처(메서드의 반환 타입, 이름, 매개변수 등)를 기반으로 포인트컷을 정의
 
-    @Pointcut(value="execution (int kr.co.member.model.service.MemberService.*Member(kr.co.member.dto.Member))")
+    @Pointcut(value="execution (int kr.co.member.model.service.MemberService.*Member(kr.co.member.model.dto.Member))")
     public void pwEncPointcut() {}
 
     @Before(value="pwEncPointcut()")

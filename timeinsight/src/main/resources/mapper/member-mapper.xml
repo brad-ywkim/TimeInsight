@@ -12,9 +12,6 @@
 	</insert>
 
 
-
-
-
 	<update id="updateInfo">
 		update member_tbl set member_phone=#{memberPhone},
 		member_email=#{memberEmail} where member_id=#{memberId}

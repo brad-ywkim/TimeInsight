@@ -122,7 +122,7 @@ const Join = () => {
         .then((res) => {
           if (res.data.message === "success") {
             //페이지 이동 = navigate (javascript 레벨에서 사용하는 페이지 이동 = a태그와 동일)
-            navigate("/login");
+            navigate("/");
           } else {
             Swal.fire({
               icon: "error",

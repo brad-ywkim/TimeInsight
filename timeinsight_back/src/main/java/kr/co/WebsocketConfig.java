@@ -14,10 +14,15 @@ public class WebsocketConfig implements WebSocketConfigurer {
 
 	@Autowired
 	private RealTimeBidHanlder allMemberSuccessBidHandler;
-	
-	@Override   //이걸 구현해야 함
+
+	//클라리언트가 ws 엔드포인트로 websocket 요청
+	//본 websocket config 클래스의 registerWebSocketHandlers 메소드를 사용하여 해당 요청을 처리할 핸들러를 결정 
+	@Override  
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		//WebSocket요청이 aalSuccessBid로 들어오면, 핸들러로 맵핑
 		registry.addHandler(allMemberSuccessBidHandler, "/allSuccessBid").setAllowedOrigins("*"); //어디서 들어오든 허용
-			
+		
 	}
+	
+	
 }
